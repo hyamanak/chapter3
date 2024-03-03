@@ -1,0 +1,9 @@
+---
+- name: Setup hiroshi user, install and configure httpd
+  hosts: web_server
+  tasks:
+    - name: Ensure user hiroshi exists
+      user:
+        name: hiroshi
+        state: present
+      become: true
