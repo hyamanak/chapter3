@@ -1,0 +1,15 @@
+---
+- name: Install, start, and enable httpd
+  hosts: web_server
+  tasks:
+    - name: Ensure httpd is installed
+      yum:
+        name: httpd
+        state: latest
+      become: true
+
+    - name: Ensure httpd is started and enabled
+      service:
+        name: httpd
+        state: started
+        enabled: true
