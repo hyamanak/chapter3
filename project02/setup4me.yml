@@ -1,18 +1,18 @@
 ---
-- name: Update user hiroshi, install httpd and configure it
+- name: Setup hiroshi user, install and configure httpd
   hosts: all
-  become: yes  # Playレベルでの権限昇格
+  become: true
   tasks:
-    - name: Add user hiroshi
+    - name: Ensure user hiroshi exists
       user:
         name: hiroshi
         state: present
 
-    - name: Ensure the user hiroshi is granted sudo privileges without password
-      copy:
-        dest: /etc/sudoers.d/hiroshi
-        content: 'hiroshi ALL=(ALL) NOPASSWD: ALL'
-        mode: '0440'
+    - name: Ensure sudo privileges is granted to hiroshi without password
+      lineinfile:
+        path: /etc/sudoers.d/hiroshi
+        line: 'hiroshi ALL=(ALL) NOPASSWD: ALL'
+        create: true
         validate: '/usr/sbin/visudo -cf %s'
 
     - name: Ensure httpd package is installed
@@ -24,18 +24,24 @@
       service:
         name: httpd
         state: started
-        enabled: yes
+        enabled: true
 
-    - name: Ensure www directory exists in the home directory of hiroshi
+    - name: Ensure document root directory exists and set permissions
       file:
-        path: /home/hiroshi/www
+        path: /var/www/html
         state: directory
-        owner: hiroshi
-        group: hiroshi
         mode: '0755'
+        owner: root
+        group: root
 
-    - name: Ensure the DocumentRoot is set to www directory of hiroshi home
-      lineinfile:
-        path: /etc/httpd/conf/httpd.conf
-        regexp: '^DocumentRoot'
-        line: 'DocumentRoot "/home/hiroshi/www"'
+    - name: Deploy a placeholder index.html to document root
+      copy:
+        content: |
+          <html>
+            <head><title>Welcome</title></head>
+            <body><h1>Hello from Hiroshi's HTTP Server</h1></body>
+          </html>
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: '0644'
