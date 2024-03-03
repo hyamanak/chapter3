@@ -1,1 +1,41 @@
+---
+- name: Update user hiroshi, install httpd and configure it
+  hosts: all
+  become: yes  # Playレベルでの権限昇格
+  tasks:
+    - name: Add user hiroshi
+      user:
+        name: hiroshi
+        state: present
 
+    - name: Grant sudo privileges to hiroshi without password
+      copy:
+        dest: /etc/sudoers.d/hiroshi
+        content: 'hiroshi ALL=(ALL) NOPASSWD: ALL'
+        mode: '0440'
+        validate: '/usr/sbin/visudo -cf %s'
+
+    - name: Install httpd package
+      yum:
+        name: httpd
+        state: present
+
+    - name: Ensure httpd is running and enabled
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: Create www directory in hiroshi's home
+      file:
+        path: /home/hiroshi/www
+        state: directory
+        owner: hiroshi
+        group: hiroshi
+        mode: '0755'
+
+    - name: Set DocumentRoot to hiroshi's www directory
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^DocumentRoot'
+        line: 'DocumentRoot "/home/hiroshi/www"'
