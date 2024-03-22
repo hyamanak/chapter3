@@ -1,0 +1,37 @@
+---
+- name: Setup hiroshi user, install and configure httpd
+  hosts: web_server
+  become: true
+  tasks:
+    - name: Ensure httpd package is installed
+      yum:
+        name: httpd
+        state: present
+
+    - name: Ensure httpd is running and enabled
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Ensure document root directory exists and set permissions
+      file:
+        path: /var/www/html
+        state: directory
+        mode: '0755'
+        owner: root
+        group: root
+
+    - name: Set document root in httpd configuration
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^DocumentRoot'
+        line: 'DocumentRoot "/var/www/html"'
+      notify:
+        restart httpd
+
+    handlers:
+      - name: restart httpd
+        service:
+          name: httpd
+          state: restarted
