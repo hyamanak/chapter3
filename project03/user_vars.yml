@@ -5,7 +5,7 @@
   vars_files:
     - vars/user_package.yml
   tasks:
-    - name: Ensure user {{ user}} exists
+    - name: Ensure user {{ user　}} exists
       user:
         name: "{{ user }}"
         state: present
