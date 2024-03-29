@@ -1,0 +1,5 @@
+node00.example.com user=kento package=mariadb service=mariadb
+
+[webservers]
+node01.example.com
+node02.example.com
