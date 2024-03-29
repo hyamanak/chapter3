@@ -1,6 +1,6 @@
 ---
 - name: My First Playbook Ever!
-  hosts: all
+  hosts: node01
   tasks:
     - name: Run echo "Hello, Ansible!" in the shell and store the output to shell_output
       shell: echo 'Hello, Ansible!'
