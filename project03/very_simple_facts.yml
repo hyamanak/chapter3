@@ -1,8 +1,7 @@
 ---
-- name: Determine the Operating System and Distribution of the Target Node
+- name: Check OS and Distribution
   hosts: node00.example.com
   tasks:
-    - name: Display the Operating System and Distribution Information
+    - name: Show OS info
       debug:
-        msg: "That's right. Your system is part of the {{ ansible_facts['os_family'] }} family, specifically running the {{ ansible_facts['distribution'] }} distribution!"
-
+        msg: "{{ ansible_facts['os_family'] }} / {{ ansible_facts['distribution'] }}"
