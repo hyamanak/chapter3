@@ -1,7 +1,7 @@
 ---
 - name: Setup hiroshi user, install and configure httpd
   hosts: node02.example.com
-  become: true #すべての操作に権限昇格が必用なため、このplaybookではプレイ規模で権限昇格を指定して問題ない
+  become: true # すべての操作に権限昇格が必要なため、このplaybookではプレイ規模で権限昇格を指定して問題ない
   tasks:
     - name: Ensure user hiroshi exists
       user:
@@ -16,7 +16,7 @@
         validate: '/usr/sbin/visudo -cf %s'
 
     - name: Ensure httpd package is installed
-      yum:
+      package:
         name: httpd
         state: present
 
@@ -26,7 +26,7 @@
         state: started
         enabled: true
 
-    - name: Ensure httpd configuration has new document root, /website
+    - name: Ensure httpd configuration has new document root, /var/www/html/website
       lineinfile:
         path: /etc/httpd/conf/httpd.conf
         regexp: '^DocumentRoot'
@@ -52,7 +52,7 @@
             <head><title>Welcome</title></head>
             <body><h1>Hello from Hiroshi's HTTP Server</h1></body>
           </html>
-        dest: "/website/index.html"
+        dest: "/var/www/html/website/index.html"
         owner: root
         group: root
         mode: '0644'
