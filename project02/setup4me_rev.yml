@@ -45,3 +45,11 @@
         owner: root
         group: root
         mode: '0644'
+      notify:
+        restart httpd
+
+    handlers:
+      - name: restart httpd
+        service:
+          name: httpd
+          state: restarted
