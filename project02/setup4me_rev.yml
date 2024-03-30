@@ -30,14 +30,14 @@
       lineinfile:
         path: /etc/httpd/conf/httpd.conf
         regexp: '^DocumentRoot'
-        line: 'DocumentRoot "/website"'
+        line: 'DocumentRoot "/var/www/html/website"'
       notify: restart httpd
 
     - name: Ensure new directory configuration for new document root exists
       blockinfile:
         path: /etc/httpd/conf/httpd.conf
         block: |
-          <Directory "/website">
+          <Directory "/var/www/html/website">
               AllowOverride None
               Require all granted
               Options Indexes FollowSymLinks
@@ -56,15 +56,6 @@
         owner: root
         group: root
         mode: '0644'
-
-    - name: Ensure right SELinux context is set for /website
-      sefcontext:
-        target: '/website(/.*)?'
-        setype: httpd_sys_content_t
-        state: present
-
-    - name: Ensure SELinux policy changes are applied to /website
-      command: restorecon -Rv /website
 
   handlers:
     - name: restart httpd
