@@ -1,0 +1,8 @@
+---
+- name: Simply check what OS and distribution you are running
+  hosts: node00.example.com
+  tasks:
+    - name: print out a message about your os/distribution
+      debug:
+        msg: "That's right. Your system is part of the {{ ansible_facts['os_family'] }} family, specifically running the {{ ansible_facts['distribution'] }} distribution!"
+

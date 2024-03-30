@@ -1,9 +1,0 @@
----
-- name: Simply check if Fedora is running or not
-  hosts: node00.example.com
-  tasks:
-    - name: print out a message if distribution is Fedora
-      debug:
-        msg: "That's right. You are running Fedora!"
-      when: ansible_facts['distribution'] == "Fedora"
-
