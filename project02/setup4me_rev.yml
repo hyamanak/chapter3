@@ -26,30 +26,48 @@
         state: started
         enabled: true
 
-    - name: Ensure document root directory exists and set permissions
-      file:
-        path: /var/www/html
-        state: directory
-        mode: '0755'
-        owner: root
-        group: root
+    - name: Ensure httpd configuration has new document root, /website
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^DocumentRoot'
+        line: 'DocumentRoot "/website"'
+      notify: restart httpd
 
-    - name: Ensure a simple index.html is in document root
+    - name: Ensure new directory configuration for new document root exists
+      blockinfile:
+        path: /etc/httpd/conf/httpd.conf
+        block: |
+          <Directory "/website">
+              AllowOverride None
+              Require all granted
+              Options Indexes FollowSymLinks
+          </Directory>
+        marker: "# {mark} ANSIBLE MANAGED BLOCK for /website"
+      notify: restart httpd
+
+    - name: Ensure a simple index.html is in the new document root
       copy:
         content: |
           <html>
             <head><title>Welcome</title></head>
             <body><h1>Hello from Hiroshi's HTTP Server</h1></body>
           </html>
-        dest: /var/www/html/index.html
+        dest: "/website/index.html"
         owner: root
         group: root
         mode: '0644'
-      notify:
-        restart httpd
 
-    handlers:
-      - name: restart httpd
-        service:
-          name: httpd
-          state: restarted
+    - name: Ensure right SELinux context is set for /website
+      sefcontext:
+        target: '/website(/.*)?'
+        setype: httpd_sys_content_t
+        state: present
+
+    - name: Ensure SELinux policy changes are applied to /website
+      command: restorecon -Rv /website
+
+  handlers:
+    - name: restart httpd
+      service:
+        name: httpd
+        state: restarted
