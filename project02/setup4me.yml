@@ -34,7 +34,7 @@
         owner: root
         group: root
 
-    - name: Deploy a placeholder index.html to document root
+    - name: Ensure a simple index.html is in document root
       copy:
         content: |
           <html>
