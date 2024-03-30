@@ -26,6 +26,14 @@
         state: started
         enabled: true
 
+    - name: Ensure document root directory exists and set permissions
+      file:
+        path: "/var/www/html/website"
+        state: directory
+        mode: '0755'
+        owner: root
+        group: root
+
     - name: Ensure httpd configuration has new document root, /var/www/html/website
       lineinfile:
         path: /etc/httpd/conf/httpd.conf
@@ -53,4 +61,4 @@
         dest: "/var/www/html/website/index.html"
         owner: root
         group: root
-        mode: '0644'
+        mode: '0646'
