@@ -16,7 +16,7 @@
         validate: '/usr/sbin/visudo -cf %s'
 
     - name: Ensure {{ package }} package is installed
-      yum:
+      package:
         name: "{{ package }}"
         state: present
 
