@@ -1,6 +1,6 @@
 ---
 - name: Install, start, and enable httpd
-  hosts: web_server
+  hosts: web_servers
   tasks:
     - name: Ensure httpd is installed
       yum:
