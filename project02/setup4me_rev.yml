@@ -51,7 +51,7 @@
               Options Indexes FollowSymLinks
           </Directory>
         marker: "# {mark} ANSIBLE MANAGED BLOCK for /var/www/html/website"
-        notify: restart httpd
+      notify: restart httpd
 
     - name: Ensure a simple index.html is in the new document root
       copy:
