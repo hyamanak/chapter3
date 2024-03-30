@@ -1,5 +1,5 @@
 node00.example.com
 
-[web_server]
+[web_servers]
 node01.example.com
 node02.example.com
