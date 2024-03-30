@@ -1,5 +1,5 @@
 ---
-- name: Adding an user based on OS Distribution
+- name: Adding an user based on distribution
   hosts: node00.example.com
   vars:
     username: hiroshi
