@@ -1,6 +1,6 @@
 ---
 - name: Adding an user based on OS Distribution
-  hosts: all
+  hosts: node00.example.com
   vars:
     username: hiroshi
   tasks:
@@ -9,4 +9,4 @@
         name: "{{ username }}_fed"
         state: present
       become: true
-      when: ansible_facts['distribution] == "Fedora"
+      when: ansible_facts['distribution'] == "Fedora"
