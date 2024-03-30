@@ -5,5 +5,5 @@
     - name: print out a message if distribution is Fedora
       debug:
         msg: "That's right. You are running Fedora!"
-      when: ansible_facts['distribution] == "Fedora"
+      when: ansible_facts['distribution'] == "Fedora"
 
