@@ -1,6 +1,6 @@
 ---
 
-- name: Setup hiroshi user, install and configure httpd
+- name: Set up an user hiroshi
   hosts: web_server
   tasks:
     - name: Ensure user hiroshi exists
