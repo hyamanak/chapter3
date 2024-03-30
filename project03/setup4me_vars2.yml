@@ -1,6 +1,6 @@
 ---
 - name: Setup an user, install and configure a package
-  hosts: web_server
+  hosts: web_servers
   become: true
   tasks:
     - name: Ensure user {{ user}} exists
