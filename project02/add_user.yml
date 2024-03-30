@@ -1,4 +1,5 @@
 ---
+
 - name: Setup hiroshi user, install and configure httpd
   hosts: web_server
   tasks:
@@ -8,10 +9,10 @@
         state: present
       become: true
 
-- name: Ensure sudo privileges is granted to hiroshi without password
-      lineinfile:
-        path: /etc/sudoers.d/hiroshi
-        line: 'hiroshi ALL=(ALL) NOPASSWD: ALL'
-        create: true
-        validate: '/usr/sbin/visudo -cf %s'
+　　　- name: Ensure sudo privileges is granted to hiroshi without password
+  　　　lineinfile:
+  　　　　 path: /etc/sudoers.d/hiroshi
+    　　  line: 'hiroshi ALL=(ALL) NOPASSWD: ALL'
+         create: true
+         validate: '/usr/sbin/visudo -cf %s'
       become: true
