@@ -1,6 +1,6 @@
 ---
 - name: Setup user hiroshi and sudo privileges
-  hosts: web_server
+  hosts: web_servers
   tasks:
     - name: Ensure user hiroshi exists
       user:
