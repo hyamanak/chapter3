@@ -1,0 +1,12 @@
+---
+- name: Adding an user based on OS Family
+  hosts: all
+  vars:
+    username: hiroshi
+  tasks:
+    - name: Add a user, {{ username }}, with a '_fed' on Fedora
+      user:
+        name: "{{ username }}_fed"
+        state: present
+      become: true
+      when: ansible_facts['os_family'] == "RedHat"
