@@ -1,0 +1,8 @@
+[file_servers]
+node00.example.com
+
+[web_servers]
+node01.example.com
+
+[data_center]
+node02.example.com
