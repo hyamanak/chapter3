@@ -1,0 +1,22 @@
+---
+- name: Generate Custom Status Reports for All Servers
+  hosts: all
+  gather_facts: yes
+
+  tasks:
+    - name: Define node roles based on groups
+      set_fact:
+        node_role: "{{ 'file_server' if inventory_hostname in groups['file_servers'] else 'web_server' if inventory_hostname in groups['web_servers'] else 'data_center' if inventory_hostname in groups['data_center'] else 'undefined' }}"
+
+    - name: Fetch installed applications (dummy data for example)
+      set_fact:
+        installed_apps:
+          - name: nginx
+            version: "1.18"
+          - name: postgresql
+            version: "12"
+
+    - name: Generate status report
+      template:
+        src: custom_status_report.j2
+        dest: "/tmp/status_report_{{ ansible_hostname }}.txt"
