@@ -2,21 +2,21 @@
 - name: Install applications and generate server status reports
   hosts: all
   tasks:
-    - name: Install SMB on file servers
+    - name: Ensure SMB is on file servers
       package:
         name: samba
         state: present
       become: true
       when: inventory_hostname in groups['file_servers']
 
-    - name: Install HTTPd on web servers
+    - name: Ensure HTTPd is on web servers
       package:
         name: httpd
         state: present
       become: true
       when: inventory_hostname in groups['web_servers']
 
-    - name: Install PostgreSQL on data center servers
+    - name: Ensure PostgreSQL is on data center servers
       package:
         name: postgresql-server
         state: present
