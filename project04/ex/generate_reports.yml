@@ -1,21 +1,29 @@
 ---
-- name: Generate Custom Status Reports for All Servers
+- name: Install applications and generate server status reports
   hosts: all
-
   tasks:
-    - name: Define node roles based on groups
-      set_fact:
-        node_role: "{{ 'file_server' if inventory_hostname in groups['file_servers'] else 'web_server' if inventory_hostname in groups['web_servers'] else 'data_center' if inventory_hostname in groups['data_center'] else 'undefined' }}"
+    - name: Install SMB on file servers
+      package:
+        name: samba
+        state: present
+      become: true
+      when: inventory_hostname in groups['file_servers']
 
-    - name: Fetch installed applications (dummy data for example)
-      set_fact:
-        installed_apps:
-          - name: nginx
-            version: "1.18"
-          - name: postgresql
-            version: "12"
+    - name: Install HTTPd on web servers
+      package:
+        name: httpd
+        state: present
+      become: true
+      when: inventory_hostname in groups['web_servers']
 
-    - name: Generate status report
+    - name: Install PostgreSQL on data center servers
+      package:
+        name: postgresql-server
+        state: present
+      become: true
+      when: inventory_hostname in groups['data_center']
+
+    - name: Generate status report for each server
       template:
-        src: custom_status_report.j2
-        dest: "/tmp/status_report_{{ ansible_hostname }}.txt"
+        src: server_report.j2
+        dest: "/tmp/{{ ansible_hostname }}_status_report.txt"
