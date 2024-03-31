@@ -10,7 +10,7 @@
       - name: "lisa"
         role: "engineer"
       - name: "helen"
-         role: "tam"
+        role: "tam"
       - name: "minli"
         role: "user"
   tasks:
