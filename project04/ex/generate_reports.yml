@@ -26,5 +26,5 @@
     - name: Generate status report for each server
       template:
         src: custom_status_report.j2
-        dest: "/home/ansible/{{ ansible_hostname }}_status_report.txt"
+        dest: "/tmp/{{ ansible_hostname }}_status_report.txt"
       delegate_to: localhost
