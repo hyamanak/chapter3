@@ -1,0 +1,19 @@
+# Custom Status Report for {{ node_name }}
+# Role: {{ node_role }}
+# Generated on: {{ 'now' | date("Y-m-d H:M:S") }}
+
+## System Information:
+- Uptime: {{ ansible_facts.uptime_seconds }} seconds
+- OS: {{ ansible_facts.os_family }}
+
+## Installed Applications:
+{% for app in applications %}
+- {{ app.name }} Version: {{ app.version }}
+{% endfor %}
+
+## Notes:
+{% if node_role == "controller" %}
+This node manages the overall system and monitoring tasks.
+{% else %}
+This node is responsible for running specific tasks and services.
+{% endif %}
