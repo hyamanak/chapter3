@@ -1,5 +1,6 @@
-# Custom Status Report for {{ ansible_hostname }}
-## Role: {{ node_role }}
+# Server Status Report
+## Hostname: {{ ansible_hostname }}
+## Role: {{ server_role }}
 ## Generated on: {{ ansible_date_time.iso8601 }}
 
 ## System Information:
@@ -7,17 +8,19 @@
 - OS: {{ ansible_facts.distribution }} {{ ansible_facts.distribution_version }}
 
 ## Installed Applications:
-{% for app in installed_apps %}
-- {{ app.name }} Version: {{ app.version }}
-{% endfor %}
+{% if server_role == 'file_server' %}
+- Application: SMB
+{% elif server_role == 'web_server' %}
+- Application: HTTPd
+{% elif server_role == 'data_center' %}
+- Application: PostgreSQL
+{% endif %}
 
 ## Notes:
-{% if node_role == "file_server" %}
-This node is dedicated to file storage and management.
-{% elif node_role == "web_server" %}
-This node hosts web applications.
-{% elif node_role == "data_center" %}
-This node is central to data processing and storage.
-{% else %}
-This node's specific role is not defined.
+{% if server_role == 'file_server' %}
+This server is primarily used for file sharing and management.
+{% elif server_role == 'web_server' %}
+This server hosts web applications.
+{% elif server_role == 'data_center' %}
+This server is used for data storage and processing.
 {% endif %}
