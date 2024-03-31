@@ -1,0 +1,7 @@
+{% for user in users %}
+{% if user.role == "admin" %}
+Hello, admin, {{ user.name }}.
+{% else %}
+Hello, user, {{ user.name }}.
+{% endif %}
+{% endfor %}
