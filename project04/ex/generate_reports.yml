@@ -1,7 +1,6 @@
 ---
 - name: Generate Custom Status Reports for All Servers
   hosts: all
-  gather_facts: yes
 
   tasks:
     - name: Define node roles based on groups
