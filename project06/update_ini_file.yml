@@ -2,7 +2,7 @@
 - name: Create sample INI file on nodes
   hosts: node00.example.com,node01.example.com
   vars_files:
-    - vars/sample_ini_settings.yml
+    - sample_ini_settings.yml
   tasks:
     - name: Ensure host settings are present in sample.ini
       community.general.ini_file:
