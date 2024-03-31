@@ -1,6 +1,6 @@
 ---
 - name: Ensure custom motd file exists
-  hosts: all
+  hosts: node00.example.com
   tasks:
     - name: Deploy motd template
       ansible.builtin.template:
