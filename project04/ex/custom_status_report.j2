@@ -1,19 +1,23 @@
-# Custom Status Report for {{ node_name }}
-# Role: {{ node_role }}
-# Generated on: {{ 'now' | date("Y-m-d H:M:S") }}
+# Custom Status Report for {{ ansible_hostname }}
+## Role: {{ node_role }}
+## Generated on: {{ ansible_date_time.iso8601 }}
 
 ## System Information:
 - Uptime: {{ ansible_facts.uptime_seconds }} seconds
-- OS: {{ ansible_facts.os_family }}
+- OS: {{ ansible_facts.distribution }} {{ ansible_facts.distribution_version }}
 
 ## Installed Applications:
-{% for app in applications %}
+{% for app in installed_apps %}
 - {{ app.name }} Version: {{ app.version }}
 {% endfor %}
 
 ## Notes:
-{% if node_role == "controller" %}
-This node manages the overall system and monitoring tasks.
+{% if node_role == "file_server" %}
+This node is dedicated to file storage and management.
+{% elif node_role == "web_server" %}
+This node hosts web applications.
+{% elif node_role == "data_center" %}
+This node is central to data processing and storage.
 {% else %}
-This node is responsible for running specific tasks and services.
+This node's specific role is not defined.
 {% endif %}
