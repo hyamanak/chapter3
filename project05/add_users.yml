@@ -1,5 +1,5 @@
 ---
-- name: Add users with secured passwords
+- name: Add users with encrypted passwords
   hosts: all
   vars_files:
     - user_passwords.yml
