@@ -1,5 +1,11 @@
-{% if user_role == "hiroshi" %}
-Hello, an admin, {{ username }}.
+{% for user in users %}
+{% if user.role == "admin" %}
+{{ user.name }} is an administrator.
+{% elif user.role == "engineer" %}
+{{ user.name }} is an enginner.
+{% elif user.role == "tam" %}
+{{ user.name }} is a tam.
 {% else %}
-Hello, an user, {{ username }}. 
+{{ user.name }} is something else.
 {% endif %}
+{% endfor %}
