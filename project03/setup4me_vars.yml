@@ -8,7 +8,7 @@
       service: httpd
 
   tasks:
-    - name: Ensure user {{ user}} exists
+    - name: Ensure user {{ user }} exists
       user:
         name: "{{ user }}"
         state: present
