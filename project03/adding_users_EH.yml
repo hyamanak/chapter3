@@ -1,0 +1,32 @@
+---
+- name: User validation and addition with error handling
+  hosts: all
+  vars_files:
+    - pending_users.yml
+    - valid_users.yml
+
+  tasks:
+    - block:
+        - name: Ensure user is added if valid
+          user:
+            name: "{{ item }}"
+            state: present
+          loop: "{{ pending_users }}"
+          when: item in valid_users
+          become: true
+          register: user_add_result
+
+      rescue:
+        - name: Log failure for each invalid user attempt
+          debug:
+            msg: "Failed to ensure user {{ item }} because the user is not valid."
+          loop: "{{ pending_users }}"
+          when: item not in valid_users
+
+      always:
+        - name: Display newly added or modified users
+          debug:
+            msg: "User '{{ item.item }}' was successfully ensured to be added or modified."
+          loop: "{{ user_add_result.results }}"
+          when: item.changed
+
