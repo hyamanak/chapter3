@@ -9,7 +9,7 @@
             content: "Sample text content"
             dest: "/root/sample.txt"
           register: file_creation_result
-          ignore_errors:　true
+          ignore_errors: true
 
       rescue:
         - name: Handle failure
