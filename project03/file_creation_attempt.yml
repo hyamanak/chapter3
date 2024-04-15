@@ -9,7 +9,7 @@
             content: "Sample text content"
             dest: "/root/sample.txt"
           register: file_creation_result
-          ignore_errors: yes
+          ignore_errors:　true
 
       rescue:
         - name: Handle failure
@@ -24,7 +24,7 @@
     - name: Now attempt to create a file in /root with elevated privileges
       block:
         - name: Try to create file with become
-          become: yes
+          become: true
           copy:
             content: "Sample text content"
             dest: "/root/sample.txt"
